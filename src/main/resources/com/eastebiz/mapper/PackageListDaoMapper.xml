@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eastebiz.dao.PackageListDao">
+<!--#查询护士所有包裹-->
+  <select id="selectAllPackageByUserId" resultType="PackageList">
+    select id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+      from packagelist
+      where  UserId=#{userId}
+      order  by  id DESC
+
+  </select>
+
+  <!--查询公司/医生所有包裹-->
+  <select id="selectAllPackageByCompanyId" resultType="PackageList">
+  select
+  id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId ,SubmitPrice,AddressStatus,Model,ProductName,Brand
+    from  packagelist
+      where  CompanyId=#{companyId} and Status!='Delete'
+    order  by  id DESC
+  </select>
+
+    <!--查询医生未确认包裹-->
+    <select id="selectCompanyUnComfirmPackage" resultType="PackageList">
+    select id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+    from  packagelist where  Status like 'UnComfirm%' and CompanyId=#{companyId}
+    order  by  id DESC
+</select>
+    <!--查询护士未确认包裹-->
+    <select id="selectUserUnComfirmPackage" resultType="PackageList" >
+    select id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+    from  packagelist where  Status like 'UnComfirm%' and UserId=#{userId}
+    order  by  id DESC
+</select>
+  <!--//查看未发货状态的包裹  用户id-->
+  <select id="selectUnTrackPackageByUserId" resultType="PackageList">
+    select id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+      from packagelist
+      where  UserId=#{userId} and  Status='unShipped'
+    order  by  id DESC
+  </select>
+  <!--//查看未发货状态的包裹  公司id-->
+  <select id="selectUnTrackPackageByCompanyId" resultType="PackageList">
+    select id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+      from packagelist
+      where  CompanyId=#{companyId} and  Status='unShipped'
+    order  by  id DESC
+  </select>
+  <!--//查看途中状态的包裹  用户id-->
+  <select id="selectShippedPackageByUserId" resultType="PackageList">
+    select id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+      from packagelist
+      where  UserId=#{userId} and  Status='Shipped'
+    order  by  id DESC
+  </select>
+  <!--//查看途中状态的包裹  公司id-->
+  <select id="selectShippedPackageByCompanyId" resultType="PackageList">
+    select id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+      from packagelist
+      where  CompanyId=#{companyId} and  Status='Shipped'
+    order  by  id DESC
+  </select>
+  <!--//查看在家状态的包裹  用户id-->
+  <select id="selectInstockPackageByUserId" resultType="PackageList">
+    select id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+      from packagelist
+      where  UserId=#{userId} and  Status='InStock'
+    order  by  id DESC
+  </select>
+  <!--//查看在家状态的包裹  公司id-->
+  <select id="selectInstockPackageByCompanyId" resultType="PackageList">
+    select id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+      from packagelist
+      where  CompanyId=#{companyId} and  Status='InStock'
+    order  by  id DESC
+  </select>
+  <!--//查看待结算状态的包裹  用户id-->
+  <select id="selectUnPaiedPackageByUserId" resultType="PackageList">
+    select id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+      from packagelist
+      where  UserId=#{userId} and  Status='UnPaied'
+    order  by  id DESC
+  </select>
+  <!--//查看待结算状态的包裹  公司id-->
+  <select id="selectUnPaiedPackageByCompanyId" resultType="PackageList">
+    select id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+      from packagelist
+      where  CompanyId=#{companyId} and  Status='UnPaied'
+    order  by  id DESC
+  </select>
+  <!--//查看已结算状态的包裹  用户id-->
+  <select id="selectPaiedPackageByUserId" resultType="PackageList">
+    select id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+      from packagelist
+      where  UserId=#{userId} and  Status='Paied'
+    order  by  id DESC
+  </select>
+  <!--//查看未确认状态的包裹  公司id-->
+  <select id="selectPaiedPackageByCompanyId" resultType="PackageList">
+    select id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+      from packagelist
+      where  CompanyId=#{companyId} and  Status='Paied'
+    order  by  id DESC
+  </select>
+  <!--//查看邮寄完成状态的包裹  用户id-->
+  <select id="selectShippedCompletePackageByUserId" resultType="PackageList">
+    select id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+      from packagelist
+      where  UserId=#{userId} and  Status='ShippedComplete'
+    order  by  id DESC
+  </select>
+  <!--//查看邮寄完成状态的包裹  公司id-->
+  <select id="selectShippedCompletePackageByCompanyId" resultType="PackageList">
+    select id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+      from packagelist
+      where  CompanyId=#{companyId} and  Status='ShippedComplete'
+    order  by  id DESC
+  </select>
+  <!--//查看不匹配状态的包裹  用户id-->
+  <select id="selectUnMatchPackageByUserId" resultType="PackageList">
+    select id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+      from packagelist
+      where  UserId=#{userId} and  Status LIKE 'UnMatch %'
+    order  by  id DESC
+  </select>
+  <!--//查看不匹配状态的包裹  公司id-->
+  <select id="selectUnMatchPackageByCompanyId" resultType="PackageList">
+    select id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+      from packagelist
+      where  CompanyId=#{companyId} and  Status LIKE  'UnMatch %'
+    order  by  id DESC
+  </select>
+
+<!--添加包裹-->
+<insert id="insertPackage" parameterType="PackageList" >
+
+  insert  into packagelist (CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand)
+  values (#{createTime},#{updateTime},#{companyName},#{trackingNumber},#{storeName},#{userName},#{shippingAddress},#{email},
+  #{phoneNumber},#{receiver},#{recipient},#{mnote},#{unote},#{packageQuantity},#{homeBasePrice},#{homePromotQuantity},#{homePromotPrice},#{wareHouseBasePrice},
+  #{wareHousePromotQuantity},#{wareHousePromotPrice},#{creditCardNumber},#{status},#{checkStatus},#{checker},#{labelStatus},#{labeler},#{payStatus},#{payer},
+  #{productId},#{userId},#{companyId},#{submitPrice},#{addressStatus},#{model},#{productName},#{brand})
+</insert>
+  <!--点击update按钮先跳转,要做查询-->
+  <select id="selectOneByid" resultType="PackageList">
+   select id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+   from  packagelist where id=#{id}
+     order  by  id DESC
+  </select>
+  <!--修改包裹信息-->
+
+  <update id="updatePackage" parameterType="PackageList" >
+	update packagelist
+    <trim prefix="set" suffixOverrides=",">
+      <if test="updateTime!=null">
+        UpdateTime=#{updateTime},
+      </if>
+      <if test="companyName!=null">
+        CompanyName=#{companyName},
+      </if>
+      <if test="storeName!=null">
+        StoreName=#{storeName},
+      </if>
+      <if test="userName!=null">
+        UserName=#{userName},
+      </if>
+      <if test="shippingAddress!=null">
+        ShippingAddress=#{shippingAddress},
+      </if>
+      <if test="email!=null">
+        Email=#{email},
+      </if>
+      <if test="phoneNumber!=null">
+        PhoneNumber=#{phoneNumber},
+      </if>
+      <if test="receiver!=null">
+        Receiver=#{receiver},
+      </if>
+      <if test="recipient!=null">
+        Recipient=#{recipient},
+      </if>
+      <if test="mnote!=null">
+        Mnote=#{mnote},
+      </if>
+      <if test="unote!=null">
+        Unote=#{unote},
+      </if>
+      <if test="packageQuantity!=null">
+        PackageQuantity=#{packageQuantity},
+      </if>
+      <if test="homeBasePrice!=null">
+        HomeBasePrice=#{homeBasePrice},
+      </if>
+      <if test="homePromotQuantity!=null">
+        HomePromotQuantity=#{homePromotQuantity},
+      </if>
+      <if test="homePromotPrice!=null">
+        HomePromotPrice=#{homePromotPrice},
+      </if>
+      <if test="wareHouseBasePrice!=null">
+        WareHouseBasePrice=#{wareHouseBasePrice},
+      </if>
+      <if test="wareHousePromotQuantity!=null">
+        WareHousePromotQuantity=#{wareHousePromotQuantity},
+      </if>
+      <if test="wareHousePromotPrice!=null">
+        WareHousePromotPrice=#{wareHousePromotPrice},
+      </if>
+      <if test="creditCardNumber!=null">
+        CreditCardNumber=#{creditCardNumber},
+      </if>
+      <if test="status!=null">
+        Status=#{status},
+      </if>
+      <if test="checkStatus!=null">
+        CheckStatus=#{checkStatus},
+      </if>
+      <if test="checker!=null">
+        Checker=#{checker},
+      </if>
+      <if test="labelStatus!=null">
+        LabelStatus=#{labelStatus},
+      </if>
+      <if test="labeler!=null">
+        Labeler=#{labeler},
+      </if>
+      <if test="payStatus!=null">
+        PayStatus=#{payStatus},
+      </if>
+      <if test="payer!=null">
+        Payer=#{payer},
+      </if><if test="submitPrice!=null">
+      SubmitPrice=#{submitPrice},
+      </if>
+      <if test="addressStatus!=null">
+        AddressStatus=#{addressStatus},
+      </if>
+      <if test="model!=null">
+        Model=#{model},
+      </if>
+      <if test="productName!=null">
+        ProductName=#{productName},
+      </if>
+      <if test="brand!=null">
+        Brand=#{brand}
+      </if>
+
+      <where>
+        id=#{id}
+      </where>
+    </trim>
+	</update>
+
+  <!--修改状态为删除-->
+  <update id="updateDeleteStatus" parameterType="PackageList">
+  update  packagelist  set  Status='Delete' where id=#{id}
+</update>
+  <!--//更新/修改包裹   填写trackingNumber后改变状态为途中包裹-->
+  <update id="updateShippedStatus" parameterType="PackageList">
+  update packagelist  set Status='Shipped' where id=#{id}
+
+</update>
+  <!--//更新/修改包裹   将途中包裹改为在家包裹-->
+  <update id="updateHomeStatus" parameterType="PackageList">
+      update packagelist  set Status='InStock' where id=#{id}
+
+</update>
+  <!--//更新/修改包裹   对单完成将途中包裹改为邮寄完成-->
+  <update id="updateShippedCompleteStatus" parameterType="PackageList">
+        update packagelist  set Status='ShippedComplete' where id=#{id}
+  </update>
+  <!--//更新/修改包裹    将邮寄完成改为待结算-->
+  <update id="updateUnPaiedStatus" parameterType="PackageList">
+  update packagelist  set Status='UnPaied' where id=#{id}
+  </update>
+  <!--//更新/修改包裹    将邮寄完成改为正在结算-->
+  <update id="updatePayingStatus" parameterType="PackageList">
+  update packagelist  set Status='Paying' where id=#{id}
+  </update>
+
+  <!--//更新/修改包裹   将待结算改为已结算-->
+  <update id="updatePaiedStatus" parameterType="PackageList">
+  update packagelist  set Status='Paied' where id=#{id}
+  </update>
+  <!--//更新/修改包裹   将已结算改为彻底完成-->
+  <update id="updateComplete" parameterType="PackageList">
+  update packagelist  set Status='Complete' where id=#{id}
+  </update>
+
+  <!--点击对单 查询所有未对单的包裹-->
+  <select id="selectAllUnCheckPackage" resultType="PackageList">
+      select id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+      from packagelist
+      where  CheckStatus='UnCheck' and  CompanyId=#{companyId}   order  by  id DESC
+ </select>
+  <!--医生对单领取用户  该改变用户checkStatus-->
+<!--医生对单批量领取用户 更新-->
+  <update id="updateCheckingStatusBatch">
+
+    update  packagelist set  CheckStatus='Checking', Checker=#{checker}
+    where  id in
+
+    <foreach collection="ids" item="id" open="(" close=")" separator="," index="index">
+      #{id}
+    </foreach>
+
+  </update>
+  <!--3查看已领取任务-->
+  <select id="selectCheckingStatus"  resultType="PackageList">
+    select
+    id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+    from  packagelist
+    where Checker=#{checker} and CheckStatus='Checking'
+  order  by  id DESC
+  </select>
+  <!--取消任务-->
+
+  <!--批量取消任务-->
+  <update id="updateUnCheckStatusBatch">
+    update  packagelist set  CheckStatus='UnCheck',Checker=''
+    where  id in
+    <foreach collection="array" item="item" open="(" close=")" separator="," index="index">
+      #{item}
+    </foreach>
+
+  </update>
+  <!--4更新包裹状态-->
+
+  <update id="updateStatusBatch">
+
+    update  packagelist set Status=#{status},CheckStatus='Checked'
+    <where>  id in
+    <foreach collection="ids" item="item" open="(" close=")" separator="," index="index">
+      #{item}
+    </foreach>
+    </where>
+  </update>
+  <!--5查看已完成任务-->
+  <select id="selectCheckedStatus" resultType="PackageList">
+    select
+    id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+    from packagelist where CheckStatus='Checked' and  Checker=#{checker}
+   order  by  id DESC
+    </select>
+
+<!--/*
+    医生发label*/
+        //1.查询出所有未发label 的包裹-->
+<select id="selectAllUnSendLabelPackage" resultType="PackageList">
+  select
+  id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+    from  packagelist
+    where Status='InStock' and  CompanyId=#{companyId}   order  by  id DESC
+</select>
+  <!--2.领取未发  改变labelStatus-->
+  <update id="updateSendingLabelStatusBatch">
+    update  packagelist set  LabelStatus='SendingLabel'
+    where  id in
+
+    <foreach collection="array" item="item" open="(" close=")" separator="," index="index">
+      #{item}
+    </foreach>
+
+  </update>
+<!--3.查看已领取 正在发label 的包裹-->
+  <select id="selectSendingLabel" resultType="PackageList">
+    select
+    id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+    from   packagelist
+    where  LabelStatus='SendingLabel' and  Labeler=#{labeler}   order  by  id DESC
+  </select>
+  <!--批量取消任务-->
+  <update id="updateUnSendLabelStatusBatch">
+    update  packagelist set  LabelStatus='UnSendLabel'
+    where  id in
+    <foreach collection="array" item="item" open="(" close=")" separator="," index="index">
+      #{item}
+    </foreach>
+
+  </update>
+
+
+<!--//4.更新  发label  邮件-->
+<!--5.查看已发送完label的包裹-->
+  <select id="selectSendedLabel" resultType="PackageList">
+    select
+     id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+    from  packagelist
+    where LabelStatus='SendedLabel' and  Labeler=#{labeler}    order  by  id DESC
+  </select>
+
+ <!-- /更新包裹信息  未确认和未发货
+  //先查询 公司的-->
+  <select id="selectCompanyUnComfirmAndUnShipped" resultType="PackageList">
+    select
+    id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+    from  packagelist
+    where  CompanyId=#{companyId}  and
+    (Status='UnShipped' or  Status LIKE 'UnComfirm%')
+  order  by  id DESC
+  </select>
+  <!--用户的-->
+  <select id="selectUserUnComfirmAndUnShipped" resultType="PackageList">
+    select
+    id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+    from  packagelist
+    where  UserId=#{userId}  and
+    (Status='UnShipped' or  Status LIKE 'UnComfirm%')
+  order  by  id DESC
+  </select>
+
+
+  <!--//更新trackingnumber  只能修改 tracking 和信用卡信息
+  //先查出来,只有用户的  判断trackingnumber不为空-->
+
+<select id="selectTrackingNumberPackage" resultType="PackageList">
+  select
+  id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+  from packagelist
+  where TrackingNumber is not null  and  UserId=#{userId}
+  order  by  id DESC
+</select>
+
+  <select id="selectAllUnPaiedPackage" resultType="PackageList">
+    select
+      id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+    from  packagelist
+    where  Status='UnPaied' and UserId=#{userId}
+  order  by  id DESC
+  </select>
+  <!--//修改信用卡信息-->
+  <update id="updateCreaditCard">
+    update packagelist
+    set CreditCardNumber=#{creditCard}
+    where id=#{id}
+  </update>
+ <!-- /打包包裹:医生发了label    labelStatus=SendedLabel-->
+<select id="selectUserPackedPackage" resultType="PackageList">
+  select
+  id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+  from packagelist
+  where LabelStatus='SendedLabel' and  UserId=#{userId}    order  by  id DESC
+</select>
+  <select id="selectCompanyPackedPackage" resultType="PackageList">
+  select
+  id,CreateTime,UpdateTime,CompanyName,TrackingNumber,StoreName,UserName,ShippingAddress,Email,
+    PhoneNumber,Receiver,Recipient,Mnote,Unote,PackageQuantity,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+    WareHousePromotQuantity,WareHousePromotPrice,CreditCardNumber,Status,CheckStatus,Checker,LabelStatus,Labeler,PayStatus,Payer,
+    ProductId,UserId,CompanyId,SubmitPrice,AddressStatus,Model,ProductName,Brand
+  from packagelist
+  where LabelStatus='SendedLabel' and  CompanyId=#{companyId}    order  by  id DESC
+</select>
+
+
+
+
+
+</mapper>

@@ -1,0 +1,31 @@
+server:
+  #端口
+  port: 9001
+  context-path: /eastebiz
+  jsp-servlet:
+    init-parameters:
+      development: true
+spring:
+  #视图解析器
+  mvc:
+    view:
+      prefix: WEB-INF/
+      suffix: .jsp
+
+  http:
+    #字符集
+    encoding:
+      charset: UTF-8
+      force: true
+  #数据源
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/testebiz
+    name: testebiz
+    username: root
+    password: 123
+    driver-class-name: com.mysql.jdbc.Driver
+#Mybatis
+mybatis:
+  mapper-locations: classpath:com/eastebiz/mapper/*DaoMapper.xml
+  type-aliases-package: com.eastebiz.entity

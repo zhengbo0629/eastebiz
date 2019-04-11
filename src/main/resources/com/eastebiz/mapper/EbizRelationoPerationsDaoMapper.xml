@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eastebiz.dao.EbizRelationoPerationsDao">
+   <!-- 添加 -->
+    <insert id="insertEbizRelationoPerations" parameterType="ebizRelationoPerations">
+        insert into ebizrelationoperations (CompanyName,UserName,addStatus)
+        values (#{companyName},#{userName},#{addStatus})
+    </insert>
+
+    <!-- 修改信息 -->
+    <update id="updateEbizRelationoPerations" >
+         update  ebizrelationoperations set  addStatus=#{addStatus}  where id=#{id}
+
+    </update>
+
+
+
+    <!-- 查询用户添加公司 -->
+    <select id="selectAllUserAndCompany" resultType="ebizRelationoPerations">
+      select  id,CompanyName,UserName,addStatus from ebizrelationoperations  where addStatus=#{addStatus}
+    </select>
+
+    <!-- 查询公司添加用户 -->
+    <select id="selectALLCompanyAndUser" resultType="ebizRelationoPerations">
+         select  id,CompanyName,UserName,addStatus from ebizrelationoperations  where addStatus=#{addStatus}
+    </select>
+
+
+    <!-- 查询公司添加用户 -->
+    <select id="selectOneEbizRelationoPerations" resultType="ebizRelationoPerations">
+         select  id,CompanyName,UserName,addStatus from ebizrelationoperations  where id=#{id}
+    </select>
+
+
+    <!-- 用公司名字和用户名字去查  -->
+    <select id="selectOneUserNameAanCompanyName" parameterType="String" resultType="ebizRelationoPerations">
+         select  id,CompanyName,UserName,addStatus from ebizrelationoperations  where UserName=#{userName} and CompanyName=#{companyName}
+    </select>
+</mapper>
+
+
+
+
+
+
+
+

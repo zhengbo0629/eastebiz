@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eastebiz.dao.EbizStatusDao">
+   <!-- 添加 -->
+    <insert id="insertEbizStatus" parameterType="ebizStatus">
+        insert into ebizstatus (CompanyId,UserId,Status,StarLevel,UserPersonalLimit,UserMnote)
+        values (#{companyId},#{userId},#{status},#{starLevel},#{userPersonalLimit},#{userMnote})
+    </insert>
+
+    <!-- 修改信息 -->
+    <update id="updateEbizStatus" parameterType="ebizStatus">
+         update  ebizstatus
+        <trim prefix="set" suffixOverrides=",">
+            <if test="status!=null">
+                Status=#{status},
+            </if>
+           <if test="starLevel!=null">
+               StarLevel=#{starLevel},
+            </if>
+            <if test="userPersonalLimit!=null">
+                UserPersonalLimit=#{userPersonalLimit}
+            </if>
+            <if test="userMnote!=null">
+                UserMnote=#{userMnote}
+            </if>
+            <where>
+                id=#{id}
+            </where>
+        </trim>
+    </update>
+
+    <resultMap id="ebizStatusMap" type="ebizStatus">
+            <id property="id" column="s_id"/>
+            <result property="companyId" column="s_CompanyId"/>
+            <result property="userId" column="s_UserId"/>
+            <result property="status" column="s_Status"/>
+            <result property="starLevel" column="s_StarLevel"/>
+            <result property="userPersonalLimit" column="s_UserPersonalLimit"/>
+            <result property="userMnote" column="s_UserMnote"/>
+        <association property="ebizCompany" javaType="ebizCompany">
+            <id property="id" column="c_id"/>
+            <result property="companyName" column="c_CompanyName"/>
+            <result property="owerName" column="c_OwerName"/>
+        </association>
+    </resultMap>
+
+
+
+
+    <!-- 用户查询激活状态 -->
+    <select id="selectALLActiveEbizCompany" resultMap="ebizStatusMap">
+      select s.id as s_id,s.CompanyId as s_CompanyId,s.UserId as s_UserId,s.Status as s_Status,s.StarLevel as s_StarLevel,s.UserPersonalLimit as s_UserPersonalLimit,s.UserMnote as s_UserMnote,
+         c.id as c_id,c.CompanyName as c_CompanyName,c.OwerName as c_OwerName
+        from  ebizstatus s  join ebizcompany c
+         on s.CompanyId = c.id
+         where s.UserId =#{userId} and s.Status=#{status}
+    </select>
+
+    <!-- 用户查询添加未激活 -->
+    <select id="selectAddUnActiveEbizCompany" resultMap="ebizStatusMap">
+         select s.id as s_id,s.CompanyId as s_CompanyId,s.UserId as s_UserId,s.Status as s_Status,s.StarLevel as s_StarLevel,s.UserPersonalLimit as s_UserPersonalLimit,s.UserMnote as s_UserMnote,
+         c.id as c_id,c.CompanyName as c_CompanyName,c.OwerName as c_OwerName
+        from  ebizstatus s  join ebizcompany c
+         on s.CompanyId = c.id
+         where s.UserId =#{userId} and s.Status=#{status}
+    </select>
+
+
+    <!-- 用户查询激活状态 -->
+    <select id="selectOneEbizCompany" resultMap="ebizStatusMap">
+      select s.id as s_id,s.CompanyId as s_CompanyId,s.UserId as s_UserId,s.Status as s_Status,s.StarLevel as s_StarLevel,s.UserPersonalLimit as s_UserPersonalLimit,s.UserMnote as s_UserMnote,
+         c.id as c_id,c.CompanyName as c_CompanyName,c.OwerName as c_OwerName
+        from  ebizstatus s  join ebizcompany c
+         on s.CompanyId = c.id
+         where s.id =#{id}
+    </select>
+
+
+    <resultMap id="statusMap" type="ebizStatus">
+        <id property="id" column="s_id"/>
+        <result property="companyId" column="s_CompanyId"/>
+        <result property="userId" column="s_UserId"/>
+        <result property="status" column="s_Status"/>
+        <result property="starLevel" column="s_StarLevel"/>
+        <result property="userPersonalLimit" column="s_UserPersonalLimit"/>
+        <result property="userMnote" column="s_UserMnote"/>
+        <association property="ebizUser" javaType="ebizUser">
+            <id property="id" column="u_id"/>
+            <result property="userName" column="u_UserName"/>
+        </association>
+    </resultMap>
+    <!-- 公司查询所有护士 -->
+    <select id="selectAllEbizUser" resultMap="statusMap">
+         select s.id as s_id,s.CompanyId as s_CompanyId,s.UserId as s_UserId,s.Status as s_Status,s.StarLevel as s_StarLevel,s.UserPersonalLimit as s_UserPersonalLimit,s.UserMnote as s_UserMnote,
+         u.id as u_id,u.UserName as u_UserName
+        from  ebizstatus s  join ebizuser u
+         on s.UserId = u.id
+         where s.CompanyId =#{companyId}
+    </select>
+
+    <!-- 查询一个ID -->
+    <select id="selectOneEbizUser" resultMap="statusMap">
+         select s.id as s_id,s.CompanyId as s_CompanyId,s.UserId as s_UserId,s.Status as s_Status,s.StarLevel as s_StarLevel,s.UserPersonalLimit as s_UserPersonalLimit,s.UserMnote as s_UserMnote,
+         u.id as u_id,u.UserName as u_UserName
+        from  ebizstatus s  join ebizuser u
+         on s.UserId = u.id
+         where s.id =#{id}
+    </select>
+</mapper>
+
+
+
+
+
+
+
+

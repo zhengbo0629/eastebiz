@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eastebiz.dao.ProductDao">
+    <!-- 添加 -->
+    <insert id="insertProduct" parameterType="product">
+    insert into product (companyName,model,productName,`condition`,UPC,ASIN,SKU,brand,weight,`length`,width,height,homeBasePrice,homePromotQuantity,homePromotPrice,wareHouseBasePrice,wareHousePromotQuantity,wareHousePromotPrice,`status`,tickets,limitPerPerson,URI,mnote,createdTime,ebizcompanyId)
+    values (#{companyName},#{model},#{productName},#{condition},#{upc},#{asin},#{sku},#{brand},#{weight},#{length},#{width},#{height},#{homeBasePrice},#{homePromotQuantity},#{homePromotPrice},#{wareHouseBasePrice},#{wareHousePromotQuantity},#{wareHousePromotPrice},#{status},#{tickets},#{limitPerPerson},#{URI},#{mnote},#{createdTime},#{ebizCompany.id})
+  </insert>
+
+    <!-- 修改 -->
+    <update id="updatebProduct" parameterType="product">
+        update product
+        <trim prefix="set" suffixOverrides=",">
+            <if test="companyName!=null">
+                CompanyName=#{companyName},
+            </if>
+            <if test="productName!=null">
+                ProductName=#{productName},
+            </if>
+            <if test="condition!=null">
+                `Condition`=#{condition},
+            </if>
+            <if test="sku!=null">
+                SKU=#{sku},
+            </if>
+            <if test="brand!=null">
+                Brand=#{brand},
+            </if>
+            <if test="weight!=null">
+                Weight=#{weight},
+            </if>
+            <if test="length!=null">
+                `Length`=#{length},
+            </if>
+            <if test="width!=null">
+                Width=#{width},
+            </if>
+            <if test="height!=null">
+                Height=#{height},
+            </if>
+            <if test="homeBasePrice!=null">
+                HomeBasePrice=#{homeBasePrice},
+            </if>
+            <if test="homePromotQuantity!=null">
+                HomePromotQuantity=#{homePromotQuantity},
+            </if>
+            <if test="homePromotPrice!=null">
+                HomePromotPrice=#{homePromotPrice},
+            </if>
+            <if test="wareHouseBasePrice!=null">
+                WareHouseBasePrice=#{wareHouseBasePrice},
+            </if>
+            <if test="wareHousePromotQuantity!=null">
+                WareHousePromotQuantity=#{wareHousePromotQuantity},
+            </if>
+            <if test="wareHousePromotPrice!=null">
+                WareHousePromotPrice=#{wareHousePromotPrice},
+            </if>
+            <if test="status!=null">
+                `Status`=#{status},
+            </if>
+            <if test="tickets!=null">
+                Tickets=#{tickets},
+            </if>
+            <if test="limitPerPerson!=null">
+                LimitPerPerson=#{limitPerPerson},
+            </if>
+            <if test="URI!=null">
+                URI=#{URI},
+            </if>
+            <if test="mnote!=null">
+                mnote=#{mnote},
+            </if>
+            <if test="updateTime!=null">
+                UpdateTime=#{updateTime}
+            </if>
+            <where>
+                id=#{id}
+            </where>
+        </trim>
+    </update>
+
+
+
+
+
+
+    <!--  使用属性条件模糊查询 -->
+    <select id="selectAllNameAndValue" resultType="product">
+    select * from (select id,CompanyName,Model,ProductName,`Condition`,UPC,ASIN,SKU,Brand,
+      Weight,`Length`,Width,Height,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+     WareHousePromotQuantity,WareHousePromotPrice,`Status`,Tickets,LimitPerPerson,URI,Mnote,CreatedTime,UpdateTime
+     from product where  EbizcompanyId =#{ebizcompanyId}) p where ${name} like '%${value}%' ORDER BY id DESC
+  </select>
+
+    <!--  根据提供的条件进行模糊查询  全部的查询 -->
+    <select id="selectAllValue" resultType="product">
+    select * from (select id,CompanyName,MOdel,ProductName,`Condition`,UPC,ASIN,SKU,Brand,
+      Weight,`Length`,Width,Height,HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,
+     WareHousePromotQuantity,WareHousePromotPrice,`Status`,Tickets,LimitPerPerson,URI,Mnote,CreatedTime,UpdateTime
+     from product where  EbizcompanyId =#{ebizcompanyId}) p
+      where CONCAT(id,Model,ProductName,`Condition`,UPC,ASIN,SKU,Brand) like '%${value}%' ORDER BY id DESC
+  </select>
+
+    <!-- 根据状态查询 -->
+    <select id="selectAndStatus"  resultType="product">
+    select id,CompanyName ,MOdel,ProductName,`Condition`,UPC,ASIN,SKU,Brand,Weight,`Length`,Width,Height,
+      HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,WareHousePromotQuantity,
+      WareHousePromotPrice,`Status`,Tickets,LimitPerPerson,URI,Mnote,CreatedTime,UpdateTime
+      from product where Status=#{status} and EbizcompanyId=#{ebizcompanyId} ORDER BY id DESC
+  </select>
+
+    <!-- 根据公司ID查询公司旗下有多少产品 -->
+    <select id="seclectAllEbizcompanyId" resultType="product">
+        select id,CompanyName ,MOdel,ProductName,`Condition`,UPC,ASIN,SKU,Brand,Weight,`Length`,Width,Height,
+      HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,WareHousePromotQuantity,
+      WareHousePromotPrice,`Status`,Tickets,LimitPerPerson,URI,Mnote,CreatedTime,UpdateTime
+      from product where EbizcompanyId=#{ebizcompanyId} and status!='Deleted' ORDER BY id DESC
+    </select>
+
+    <!-- 根据公司ID查询公司旗下有多少产品 -->
+    <select id="seclectAllEbizcompany" resultType="product">
+        select * from (select id,CompanyName ,MOdel,ProductName,`Condition`,UPC,ASIN,SKU,Brand,Weight,`Length`,Width,Height,
+      HomeBasePrice,HomePromotQuantity,HomePromotPrice,WareHouseBasePrice,WareHousePromotQuantity,
+      WareHousePromotPrice,`Status`,Tickets,LimitPerPerson,URI,Mnote,CreatedTime,UpdateTime
+      from product where EbizcompanyId=#{ebizcompanyId}) c where status='Active' or status='LiveDeal' ORDER BY id DESC
+    </select>
+
+
+
+    <resultMap type="product" id="ProductMap">
+        <id property="id" column="p_id"/>
+        <result property="companyName" column="p_CompanyName"/>
+        <result property="model" column="p_MOdel"/>
+        <result property="productName" column="p_ProductName"/>
+        <result property="condition" column="p_Condition"/>
+        <result property="upc" column="p_UPC"/>
+        <result property="asin" column="p_ASIN"/>
+        <result property="sku" column="p_SKU"/>
+        <result property="brand" column="p_Brand"/>
+        <result property="weight" column="p_Weight"/>
+        <result property="length" column="p_Length"/>
+        <result property="width" column="p_Width"/>
+        <result property="height" column="p_Height"/>
+        <result property="homeBasePrice" column="p_HomeBasePrice"/>
+        <result property="homePromotQuantity" column="p_HomePromotQuantity"/>
+        <result property="homePromotPrice" column="p_HomePromotPrice"/>
+        <result property="wareHouseBasePrice" column="p_WareHouseBasePrice"/>
+        <result property="wareHousePromotQuantity" column="p_WareHousePromotQuantity"/>
+        <result property="wareHousePromotPrice" column="p_WareHousePromotPrice"/>
+        <result property="status" column="p_Status"/>
+        <result property="tickets" column="p_Tickets"/>
+        <result property="limitPerPerson" column="p_LimitPerPerson"/>
+        <result property="URI" column="p_URI"/>
+        <result property="mnote" column="p_Mnote"/>
+        <result property="createdTime" column="p_CreatedTime"/>
+        <result property="updateTime" column="p_UpdateTime"/>
+        <association property="ebizCompany" javaType="ebizCompany">
+            <id property="id" column="c_id"/>
+            <result property="companyName" column="c_CompanyName"/>
+            <result property="owerName" column="c_OwerName"/>
+        </association>
+    </resultMap>
+
+
+
+    <!-- 根据ID查询一个 -->
+    <select id="selectOneProduct" resultMap="ProductMap">
+        select p.id as p_id,p.CompanyName as p_CompanyName,p.MOdel as p_MOdel,p.ProductName as p_ProductName,p.`Condition` as p_Condition,p.UPC as p_UPC,p.ASIN as p_ASIN,p.SKU as p_SKU,p.Brand as p_Brand,p.Weight as p_Weight,p.`Length` as p_Length,p.Width as p_Width,p.Height as p_Height,
+      p.HomeBasePrice as p_HomeBasePrice,p.HomePromotQuantity as p_HomePromotQuantity,p.HomePromotPrice as p_HomePromotPrice,p.WareHouseBasePrice as p_WareHouseBasePrice,p.WareHousePromotQuantity as p_WareHousePromotQuantity,
+      p.WareHousePromotPrice as p_WareHousePromotPrice,p.`Status` as p_Status,p.Tickets as p_Tickets,p.LimitPerPerson as p_LimitPerPerson,p.URI as p_URI,p.Mnote as p_Mnote,p.CreatedTime as p_CreatedTime,p.UpdateTime as p_UpdateTime,
+      c.id as c_id,c.CompanyName as c_CompanyName,c.OwerName as c_OwerName
+      from product p join ebizcompany c
+      on p.EbizcompanyId = c.id
+      where p.id=#{id}
+    </select>
+</mapper>
+
+
+
+
+
+
+
+

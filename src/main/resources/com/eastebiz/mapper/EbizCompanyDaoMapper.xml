@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eastebiz.dao.EbizCompanyDao">
+   <!-- 注册 -->
+    <insert id="insertEbizCompany" parameterType="ebizCompany">
+        insert into ebizcompany (companyName,owerName,password,email,permision,address,address1Name,address1Value,address2Name,address2Value,address3Name,address3Value,phoneNumber,createTime,payPeriod,payTime,companyCode)
+        values (#{companyName},#{owerName},#{password},#{email},#{permision},#{address},#{address1Name},#{address1Value},#{address2Name},#{address2Value},#{address3Name},#{address3Value},#{phoneNumber},#{createTime},#{payPeriod},#{payTime},#{companyCode})
+    </insert>
+
+
+
+
+    <!-- 查询公司名称是否存在  -->
+    <select id="selectOneCompanyName" parameterType="String" resultType="ebizCompany">
+        select id,companyName,owerName,password,email,status,permision,
+      balance,mote,uNote,payTimeInfor,address,address1Name,address1Value,address2Name,address2Value,
+      address3Name,address3Value,phoneNumber,userManual,createTime,updateTime,payPeriod,payTime,companyCode from
+        ebizcompany where companyName=#{companyName}
+    </select>
+
+    <!-- 查询医生名称是否存在  -->
+    <select id="selectOneOwerName" parameterType="String" resultType="ebizCompany">
+         select id,companyName,owerName,password,email,status,permision,
+      balance,mote,uNote,payTimeInfor,address,address1Name,address1Value,address2Name,address2Value,
+      address3Name,address3Value,phoneNumber,userManual,createTime,updateTime,payPeriod,payTime,companyCode from
+        ebizcompany where owerName=#{owerName}
+    </select>
+
+    <!-- 修改登录时间 -->
+    <update id="updateAndUpdateTime">
+       update  ebizcompany set  UpdateTime=#{updateTime} where id=#{id}
+    </update>
+
+    <!-- 修改信息 -->
+    <update id="updateEbizCompany" parameterType="ebizCompany">
+         update  ebizcompany
+        <trim prefix="set" suffixOverrides=",">
+            <if test="password!=null">
+                Password=#{password},
+            </if>
+            <if test="email!=null">
+                Email=#{email},
+            </if>
+            <if test="status!=null">
+                Status=#{status},
+            </if>
+            <if test="permision!=null">
+                Permision=#{permision},
+            </if>
+            <if test="balance!=null">
+                Balance=#{balance},
+            </if>
+            <if test="mote!=null">
+                Mote=#{mote},
+            </if>
+            <if test="uNote!=null">
+                UNote=#{uNote},
+            </if>
+            <if test="address!=null">
+                Address=#{address},
+            </if>
+            <if test="address1Name!=null">
+                Address1Name=#{address1Name},
+            </if>
+            <if test="address1Value!=null">
+                Address1Value=#{address1Value},
+            </if>
+            <if test="address2Name!=null">
+                Address2Name=#{address2Name},
+            </if>
+            <if test="address2Value!=null">
+                Address2Value=#{address2Value},
+            </if>
+            <if test="address3Name!=null">
+                Address3Name=#{address3Name},
+            </if>
+            <if test="address3Value!=null">
+                Address3Value=#{address3Value},
+            </if>
+            <if test="phoneNumber!=null">
+                PhoneNumber=#{phoneNumber}
+            </if>
+            <where>
+                id=#{id}
+            </where>
+        </trim>
+    </update>
+
+
+    <!-- 修改地址、邮箱、电话 -->
+    <update id="updateAddressAndEmailAndphoneNumber" parameterType="ebizCompany">
+        update  ebizcompany
+        <trim prefix="set" suffixOverrides=",">
+            <if test="email!=null">
+                Email=#{email},
+            </if>
+            <if test="address1Name!=null">
+                Address1Name=#{address1Name},
+            </if>
+            <if test="address1Value!=null">
+                Address1Value=#{address1Value},
+            </if>
+            <if test="address2Name!=null">
+                Address2Name=#{address2Name},
+            </if>
+            <if test="address2Value!=null">
+                Address2Value=#{address2Value},
+            </if>
+            <if test="address3Name!=null">
+                Address3Name=#{address3Name},
+            </if>
+            <if test="address3Value!=null">
+                Address3Value=#{address3Value},
+            </if>
+            <if test="phoneNumber!=null">
+                PhoneNumber=#{phoneNumber},
+            </if>
+            <if test="payPeriod!=null">
+                payPeriod=#{payPeriod},
+            </if>
+            <if test="payTime!=null">
+                payTime=#{payTime},
+            </if>
+            <if test="companyCode!=null">
+                companyCode=#{companyCode}
+            </if>
+            <where>
+                id=#{id}
+            </where>
+        </trim>
+    </update>
+
+     <!-- 添加用户手册 -->
+
+    <update id="updateUserManual">
+       update  ebizcompany set  UserManual=#{userManual} where id=#{id}
+    </update>
+
+
+    <!-- 查询 地址1 -->
+    <select id="selectAddress1" parameterType="Integer" resultType="String">
+          select address1Value from
+        ebizcompany where id=#{id}
+    </select>
+
+    <!-- 查询 地址2 -->
+    <select id="selectAddress2" parameterType="Integer" resultType="String">
+          select address2Value from
+        ebizcompany where id=#{id}
+    </select>
+    <!-- 查询 地址3 -->
+    <select id="selectAddress3" parameterType="Integer" resultType="String">
+          select address3Value from
+        ebizcompany where id=#{id}
+    </select>
+
+
+    <!-- 查询一个 -->
+
+    <select id="selectOneEbizCompany"  resultType="ebizCompany">
+        select id,companyName,owerName,password,email,status,permision,
+      balance,mote,uNote,payTimeInfor,address,address1Name,address1Value,address2Name,address2Value,
+      address3Name,address3Value,phoneNumber,userManual,createTime,updateTime,payPeriod,payTime,companyCode from
+        ebizcompany where id=#{id}
+    </select>
+
+
+    <!--查询所有公司-->
+    <select id="selectAllCompany" resultType="ebizCompany">
+        select id,companyName,owerName,password,email,status,permision,
+      balance,mote,uNote,payTimeInfor,address,address1Name,address1Value,address2Name,address2Value,
+      address3Name,address3Value,phoneNumber,userManual,createTime,updateTime,payPeriod,payTime,companyCode from
+        ebizcompany
+    </select>
+</mapper>
+
+
+
+
+
+
+
+

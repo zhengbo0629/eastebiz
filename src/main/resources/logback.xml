@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <!-- appender:日志如何做展示的配置 name:展示配置的别名 class:日志如何做展示-->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- 展示布局 -->
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern> [%p] %d{yyyy-MM-dd HH:mm:ss} %m %n</pattern>
+        </layout>
+    </appender>
+    <!-- 根日志 -->
+    <root level="ERROR">
+        <appender-ref ref="stdout"/>
+    </root>
+    <!-- 子日志 使用根日志的展示配置-->
+    <logger name="com.baizhi.dao" level="DEBUG"/>
+</configuration>

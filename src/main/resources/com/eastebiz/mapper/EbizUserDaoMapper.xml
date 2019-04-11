@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eastebiz.dao.EbizUserDao">
+   <!-- 注册 -->
+    <insert id="insertEbizUser" parameterType="ebizUser">
+        insert into ebizuser (userName,firstName,lastName,password,email,phoneNumber,
+        address,createTime,status,userType,zipCode,companyId)
+        values (#{userName},#{firstName},#{lastName},#{password},#{email},#{phoneNumber},
+        #{address},#{createTime},#{status},#{userType},#{zipCode},#{ebizCompany.id})
+    </insert>
+
+   <!-- 登录 -->
+    <select id="selectOneEbizUser"  resultType="ebizUser">
+      select id,userName,firstName,lastName,password,email,phoneNumber,
+        address,createTime,updateTime,mnote,status,userType,permissions,balance,introducer,zipCode  from
+        ebizuser where userName=#{userName} and password =#{password}
+    </select>
+
+    <!-- 查询用户是否是存在 -->
+    <select id="selectOneUserName" parameterType="String" resultType="ebizUser">
+         select id,userName,firstName,lastName,password,email,phoneNumber,
+        address,createTime,updateTime,mnote,status,userType,permissions,balance,introducer,zipCode  from
+        ebizuser where userName=#{userName}
+    </select>
+
+    <!-- 修改登录时间 -->
+    <update id="updateAndUpdateTime">
+       update  ebizuser set  UpdateTime=#{updateTime} where id=#{id}
+    </update>
+
+    <!-- 修改信息 -->
+    <update id="updateEbizUser" parameterType="ebizUser">
+         update  ebizuser
+        <trim prefix="set" suffixOverrides=",">
+            <if test="password!=null">
+                Password=#{password},
+            </if>
+           <if test="email!=null">
+                Email=#{email},
+            </if>
+            <if test="phoneNumber!=null">
+                PhoneNumber=#{phoneNumber},
+            </if>
+            <if test="address!=null">
+                Address=#{address},
+            </if>
+            <if test="mnote!=null">
+                Mnote=#{mnote},
+            </if>
+            <if test="status!=null">
+                Status=#{status},
+            </if>
+            <if test="userType!=null">
+                UserType=#{userType},
+            </if>
+            <if test="permissions!=null">
+                Permissions=#{permissions},
+            </if>
+            <if test="balance!=null">
+                Balance=#{balance},
+            </if>
+            <if test="zipCode!=null">
+                zipCode=#{zipCode},
+            </if>
+            <if test="introducer!=null">
+                Introducer=#{introducer}
+            </if>
+            <where>
+                id=#{id}
+            </where>
+        </trim>
+    </update>
+
+    <!-- 查询地址 -->
+    <select id="selectAddress"  parameterType="Integer" resultType="ebizUser">
+        select  address  from ebizuser where id=#{id}
+    </select>
+
+</mapper>
+
+
+
+
+
+
+
+
